@@ -1,16 +1,20 @@
-const express  = require('express')
-const route  = express.Router()
+const express = require("express");
+const route = express.Router();
 
-route.get('/',(req,res)=>{
-    res.render('index')
-})
+const services = require("../services/render");
+const Controller = require("../controller/controller");
 
-route.get('/add-user',(req,res)=>{
-    res.render('add_user')
-})
+//Root route
+route.get("/", services.homeRoutes);
 
-route.get('/update-user',(req,res)=>{
-    res.render('update_user')
-})
+route.get("/add-user", services.add_user);
 
-module.exports = route
+route.get("/update-user", services.update_user);
+
+//API
+route.post("/api/users", Controller.create);
+route.get("/api/users", Controller.find);
+route.put("/api/users/:_id", Controller.update);
+route.delete("/api/users/:_id", Controller.delete);
+
+module.exports = route;
